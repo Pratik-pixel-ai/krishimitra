@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Sprout, User, Loader2, MessageSquare } from 'lucide-react'
+import { aiService } from '../services/api'
 
 const suggestions = [
   "Which crops should I grow in June?",
@@ -33,14 +34,17 @@ export default function Chat() {
     setInput('')
     setLoading(true)
 
-    // Placeholder — real API call will go here
-    setTimeout(() => {
+    try {
+      const data = await aiService.chat(userMsg)
+      setMessages(prev => [...prev, { role: 'assistant', content: data.response }])
+    } catch (err) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "This is a demo response. The AI backend will be connected soon. Your question was: \"" + userMsg + "\""
+        content: "Sorry, I could not process your request. Please try again."
       }])
+    } finally {
       setLoading(false)
-    }, 1000)
+    }
   }
 
   const handleKey = (e) => {
@@ -69,16 +73,12 @@ export default function Chat() {
         <div className="h-[420px] overflow-y-auto p-6 space-y-4">
           {messages.map((msg, i) => (
             <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-
-              {/* Avatar */}
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${msg.role === 'assistant' ? 'bg-green-600' : 'bg-gray-700'}`}>
                 {msg.role === 'assistant'
                   ? <Sprout className="w-5 h-5 text-white" />
                   : <User className="w-5 h-5 text-white" />
                 }
               </div>
-
-              {/* Bubble */}
               <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                 msg.role === 'assistant'
                   ? 'bg-green-50 text-gray-800 rounded-tl-sm'
@@ -89,7 +89,6 @@ export default function Chat() {
             </div>
           ))}
 
-          {/* Loading */}
           {loading && (
             <div className="flex gap-3">
               <div className="w-9 h-9 rounded-xl bg-green-600 flex items-center justify-center flex-shrink-0">

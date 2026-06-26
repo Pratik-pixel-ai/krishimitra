@@ -7,6 +7,7 @@ import Chat from './pages/Chat'
 import Weather from './pages/Weather'
 import Crops from './pages/Crops'
 import Advice from './pages/Advice'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="weather" element={<Weather />} />
           <Route path="crops" element={<Crops />} />
           <Route path="advice" element={<Advice />} />
+          <Route path="dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </Router>
