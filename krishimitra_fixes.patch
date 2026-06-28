@@ -1,0 +1,119 @@
+diff --git a/kisaan-backend/kisaan-backend/pom.xml b/kisaan-backend/kisaan-backend/pom.xml
+index b6e49ca..30d4615 100644
+--- a/kisaan-backend/kisaan-backend/pom.xml
++++ b/kisaan-backend/kisaan-backend/pom.xml
+@@ -48,6 +48,7 @@
+             <version>0.11.5</version>
+             <scope>runtime</scope>
+         </dependency>
++        <!-- WebFlux for WebClient (HTTP calls to Groq API) -->
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-webflux</artifactId>
+@@ -69,9 +70,10 @@
+ 			<groupId>org.springframework.boot</groupId>
+ 			<artifactId>spring-boot-starter-validation</artifactId>
+ 		</dependency>
++		<!-- Use web (MVC) instead of webmvc; webflux above provides WebClient -->
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-webmvc</artifactId>
++			<artifactId>spring-boot-starter-web</artifactId>
+ 		</dependency>
+ 
+ 		<dependency>
+@@ -92,22 +94,12 @@
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
++			<artifactId>spring-boot-starter-test</artifactId>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+-			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-security-test</artifactId>
+-			<scope>test</scope>
+-		</dependency>
+-		<dependency>
+-			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-validation-test</artifactId>
+-			<scope>test</scope>
+-		</dependency>
+-		<dependency>
+-			<groupId>org.springframework.boot</groupId>
+-			<artifactId>spring-boot-starter-webmvc-test</artifactId>
++			<groupId>org.springframework.security</groupId>
++			<artifactId>spring-security-test</artifactId>
+ 			<scope>test</scope>
+ 		</dependency>
+ 	</dependencies>
+diff --git a/kisaan-backend/kisaan-backend/src/main/java/com/kisaan/kisaan_backend/config/SecurityConfig.java b/kisaan-backend/kisaan-backend/src/main/java/com/kisaan/kisaan_backend/config/SecurityConfig.java
+index c4c2b9e..3e86dee 100644
+--- a/kisaan-backend/kisaan-backend/src/main/java/com/kisaan/kisaan_backend/config/SecurityConfig.java
++++ b/kisaan-backend/kisaan-backend/src/main/java/com/kisaan/kisaan_backend/config/SecurityConfig.java
+@@ -46,7 +46,13 @@ public class SecurityConfig {
+     @Bean
+     public CorsConfigurationSource corsConfigurationSource() {
+         CorsConfiguration config = new CorsConfiguration();
+-        config.setAllowedOrigins(List.of("http://localhost:5173"));
++        // Allow localhost dev + any deployed frontend (set via ALLOWED_ORIGIN env var)
++        String allowedOrigin = System.getenv("ALLOWED_ORIGIN");
++        if (allowedOrigin != null && !allowedOrigin.isBlank()) {
++            config.setAllowedOrigins(List.of("http://localhost:5173", allowedOrigin));
++        } else {
++            config.setAllowedOrigins(List.of("http://localhost:5173"));
++        }
+         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+         config.setAllowedHeaders(List.of("*"));
+         config.setAllowCredentials(true);
+diff --git a/package.json b/package.json
+index 31a830e..0f376c4 100644
+--- a/package.json
++++ b/package.json
+@@ -10,7 +10,7 @@
+     "preview": "vite preview"
+   },
+   "dependencies": {
+-    "lucide-react": "^1.21.0",
++    "lucide-react": "^0.469.0",
+     "react": "^19.2.7",
+     "react-dom": "^19.2.7",
+     "react-router-dom": "^7.18.0",
+diff --git a/src/pages/Login.jsx b/src/pages/Login.jsx
+index 7d83d85..c4158bc 100644
+--- a/src/pages/Login.jsx
++++ b/src/pages/Login.jsx
+@@ -88,7 +88,12 @@ export default function Login() {
+             <div className="flex-1 h-px bg-gray-200" />
+           </div>
+ 
+-          <button className="w-full border-2 border-green-200 hover:border-green-400 text-green-700 font-semibold py-3 rounded-xl transition-colors">
++          <button
++            type="button"
++            onClick={() => {
++              setFormData({ phone: '9999999999', password: 'demo123' })
++            }}
++            className="w-full border-2 border-green-200 hover:border-green-400 text-green-700 font-semibold py-3 rounded-xl transition-colors">
+             🌾 Try Demo Account
+           </button>
+ 
+
+diff --git a/src/components/layout/Layout.jsx b/src/components/layout/Layout.jsx
+new file mode 100644
+--- /dev/null
++++ b/src/components/layout/Layout.jsx
+@@ -0,0 +1,9 @@
++import { Outlet } from 'react-router-dom'
++import Navbar from './Navbar'
++
++export default function Layout() {
++  return (
++    <div className="min-h-screen bg-[#f9f6f0]">
++      <Navbar />
++      <main>
++        <Outlet />
++      </main>
++    </div>
++  )
++}

@@ -17,6 +17,15 @@ public class Farmer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String soilType;
+
+    @Column
+    private Double farmSize; // in acres
+
+    @Column
+    private String cropsGrown; // comma-separated, e.g. "wheat,rice,onion"
+
     @NotBlank
     @Column(nullable = false)
     private String fullName;

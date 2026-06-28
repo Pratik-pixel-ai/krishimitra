@@ -88,7 +88,12 @@ export default function Login() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          <button className="w-full border-2 border-green-200 hover:border-green-400 text-green-700 font-semibold py-3 rounded-xl transition-colors">
+          <button
+            type="button"
+            onClick={() => {
+              setFormData({ phone: '9999999999', password: 'demo123' })
+            }}
+            className="w-full border-2 border-green-200 hover:border-green-400 text-green-700 font-semibold py-3 rounded-xl transition-colors">
             🌾 Try Demo Account
           </button>
 

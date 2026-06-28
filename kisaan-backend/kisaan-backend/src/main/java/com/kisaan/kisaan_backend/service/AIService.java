@@ -38,7 +38,19 @@ public class AIService {
         if (farmer != null) {
             sb.append("=== FARMER INFORMATION ===\n");
             sb.append("Name: ").append(farmer.getFullName()).append("\n");
-            sb.append("Location: ").append(farmer.getDistrict()).append(", ").append(farmer.getState()).append("\n\n");
+            sb.append("Location: ").append(farmer.getDistrict()).append(", ").append(farmer.getState()).append("\n");
+
+            if (farmer.getSoilType() != null) {
+                sb.append("Soil Type: ").append(farmer.getSoilType()).append("\n");
+            }
+            if (farmer.getFarmSize() != null) {
+                sb.append("Farm Size: ").append(farmer.getFarmSize()).append(" acres\n");
+            }
+            if (farmer.getCropsGrown() != null && !farmer.getCropsGrown().isBlank()) {
+                sb.append("Crops Grown: ").append(farmer.getCropsGrown()).append("\n");
+            }
+
+            sb.append("\n");
         }
 
         sb.append("=== FARMER'S QUESTION ===\n");
