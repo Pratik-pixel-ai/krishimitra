@@ -8,8 +8,8 @@ import Weather from './pages/Weather'
 import Crops from './pages/Crops'
 import Advice from './pages/Advice'
 import Dashboard from './pages/Dashboard'
-import useAuthStore from './store/authStore'
 import FarmProfile from './pages/FarmProfile'
+import useAuthStore from './store/authStore'
 
 function ProtectedRoute({ children }) {
   const { token } = useAuthStore()
