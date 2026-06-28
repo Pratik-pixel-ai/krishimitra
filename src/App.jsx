@@ -9,6 +9,7 @@ import Crops from './pages/Crops'
 import Advice from './pages/Advice'
 import Dashboard from './pages/Dashboard'
 import useAuthStore from './store/authStore'
+import FarmProfile from './pages/FarmProfile'
 
 function ProtectedRoute({ children }) {
   const { token } = useAuthStore()
@@ -33,6 +34,7 @@ function App() {
           <Route path="advice" element={<Advice />} />
           <Route path="chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
           <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="farm-profile" element={<ProtectedRoute><FarmProfile /></ProtectedRoute>} />
         </Route>
       </Routes>
     </Router>
