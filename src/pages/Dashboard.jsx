@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
+import useThemeStore from '../store/themeStore'
 import { Sprout, MessageSquareText, CloudSun, BookOpen, LogOut, User, Tractor } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function Dashboard() {
   const { farmer, logout } = useAuthStore()
   const navigate = useNavigate()
+  const { isDarkMode } = useThemeStore()
 
   const handleLogout = () => {
     logout()
@@ -13,11 +15,11 @@ export default function Dashboard() {
   }
 
   const features = [
-    { icon: <MessageSquareText className="w-7 h-7 text-green-600" />, title: "AI Chat", desc: "Ask anything about farming", link: "/chat", bg: "bg-green-50" },
-    { icon: <CloudSun className="w-7 h-7 text-blue-500" />, title: "Weather", desc: "Live weather for your area", link: "/weather", bg: "bg-blue-50" },
-    { icon: <Sprout className="w-7 h-7 text-emerald-600" />, title: "Crops", desc: "Best crops for your soil", link: "/crops", bg: "bg-emerald-50" },
-    { icon: <BookOpen className="w-7 h-7 text-amber-500" />, title: "Advice", desc: "Expert farming tips", link: "/advice", bg: "bg-amber-50" },
-    { icon: <Tractor className="w-7 h-7 text-green-700" />, title: "Farm Profile", desc: "Your soil, size & crops", link: "/farm-profile", bg: "bg-green-50" },
+    { icon: <MessageSquareText className="w-7 h-7 text-green-600" />, title: "AI Chat", desc: "Ask anything about farming", link: "/chat", bg: "bg-green-50", darkBg: "bg-green-900/30" },
+    { icon: <CloudSun className="w-7 h-7 text-blue-500" />, title: "Weather", desc: "Live weather for your area", link: "/weather", bg: "bg-blue-50", darkBg: "bg-blue-900/30" },
+    { icon: <Sprout className="w-7 h-7 text-emerald-600" />, title: "Crops", desc: "Best crops for your soil", link: "/crops", bg: "bg-emerald-50", darkBg: "bg-emerald-900/30" },
+    { icon: <BookOpen className="w-7 h-7 text-amber-500" />, title: "Advice", desc: "Expert farming tips", link: "/advice", bg: "bg-amber-50", darkBg: "bg-amber-900/30" },
+    { icon: <Tractor className="w-7 h-7 text-green-700" />, title: "Farm Profile", desc: "Your soil, size & crops", link: "/farm-profile", bg: "bg-green-50", darkBg: "bg-green-900/30" },
   ]
 
   return (
@@ -44,16 +46,16 @@ export default function Dashboard() {
       </div>
 
       {/* Feature Grid */}
-      <h2 className="text-xl font-bold text-gray-800 mb-4">What do you need today?</h2>
+      <h2 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>What do you need today?</h2>
       <div className="grid grid-cols-2 gap-4">
         {features.map((f, i) => (
           <Link key={i} to={f.link}
-            className="bg-white rounded-3xl p-6 border border-green-100 hover:shadow-md transition-all">
-            <div className={`${f.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-4`}>
+            className={`${isDarkMode ? 'bg-gray-900 border-gray-800 hover:bg-gray-800' : 'bg-white border-green-100 hover:shadow-md'} rounded-3xl p-6 border transition-all`}>
+            <div className={`${isDarkMode ? f.darkBg : f.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-4`}>
               {f.icon}
             </div>
-            <h3 className="font-bold text-gray-800 text-lg">{f.title}</h3>
-            <p className="text-gray-500 text-sm mt-1">{f.desc}</p>
+            <h3 className={`font-bold text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{f.title}</h3>
+            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mt-1`}>{f.desc}</p>
           </Link>
         ))}
       </div>

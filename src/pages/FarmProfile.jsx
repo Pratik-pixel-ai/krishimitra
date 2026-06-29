@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import useThemeStore from '../store/themeStore';
 
 const soilTypes = ["Clay", "Sandy", "Loamy", "Black Cotton", "Red", "Alluvial"];
 const cropOptions = ["Wheat", "Rice", "Onion", "Cotton", "Sugarcane", "Soybean", "Maize", "Tomato", "Potato", "Gram", "Turmeric", "Groundnut"];
@@ -12,6 +13,7 @@ export default function FarmProfile() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const { isDarkMode } = useThemeStore();
 
   useEffect(() => {
     api.get("/farmer/profile").then((res) => {
@@ -44,16 +46,16 @@ export default function FarmProfile() {
     setSaving(false);
   };
 
-  if (loading) return <div className="flex justify-center items-center h-64 text-green-700">Loading...</div>;
+  if (loading) return <div className={`flex justify-center items-center h-64 ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>Loading...</div>;
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold text-green-800 mb-1">🌾 Farm Profile</h1>
-      <p className="text-gray-500 text-sm mb-6">This info helps AI give you better advice</p>
+      <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-green-400' : 'text-green-800'}`}>🌾 Farm Profile</h1>
+      <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mb-6`}>This info helps AI give you better advice</p>
 
       {/* Soil Type */}
       <div className="mb-5">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">Soil Type</label>
+        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Soil Type</label>
         <div className="flex flex-wrap gap-2">
           {soilTypes.map((soil) => (
             <button
@@ -62,7 +64,7 @@ export default function FarmProfile() {
               className={`px-3 py-1.5 rounded-full text-sm border transition ${
                 profile.soilType === soil
                   ? "bg-green-600 text-white border-green-600"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-green-400"
+                  : `${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}`
               }`}
             >
               {soil}
@@ -73,21 +75,21 @@ export default function FarmProfile() {
 
       {/* Farm Size */}
       <div className="mb-5">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">Farm Size (acres)</label>
+        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Farm Size (acres)</label>
         <input
           type="number"
           min="0"
           step="0.5"
           value={profile.farmSize}
           onChange={(e) => setProfile({ ...profile, farmSize: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+          className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-300'}`}
           placeholder="e.g. 2.5"
         />
       </div>
 
       {/* Crops */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">Crops You Grow</label>
+        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Crops You Grow</label>
         <div className="flex flex-wrap gap-2">
           {cropOptions.map((crop) => (
             <button
@@ -96,7 +98,7 @@ export default function FarmProfile() {
               className={`px-3 py-1.5 rounded-full text-sm border transition ${
                 selectedCrops.includes(crop)
                   ? "bg-green-600 text-white border-green-600"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-green-400"
+                  : `${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}`
               }`}
             >
               {selectedCrops.includes(crop) ? "✓ " : ""}{crop}
@@ -115,7 +117,7 @@ export default function FarmProfile() {
       </button>
 
       {success && (
-        <div className="mt-4 text-center text-green-700 font-medium">
+        <div className={`mt-4 text-center font-medium ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>
           ✅ Profile saved! AI will now use this for better advice.
         </div>
       )}

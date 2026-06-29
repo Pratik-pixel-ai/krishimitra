@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { CloudSun, Wind, Droplets, MapPin, Search, Eye, Gauge, Thermometer } from 'lucide-react'
+import useThemeStore from '../store/themeStore'
 
 const getWeatherEmoji = (code) => {
   if (code === 0) return '☀️'
@@ -41,6 +42,7 @@ export default function Weather() {
   const [forecast, setForecast] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const { isDarkMode } = useThemeStore()
 
   const fetchWeather = async (searchCity) => {
     const query = searchCity || city
@@ -97,22 +99,22 @@ export default function Weather() {
         <div className="bg-blue-500 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <CloudSun className="text-white w-7 h-7" />
         </div>
-        <h1 className="text-3xl font-bold text-green-900">Weather for Farmers</h1>
-        <p className="text-gray-500 mt-2">Real-time weather and farming advice for your area</p>
+        <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-green-400' : 'text-green-900'}`}>Weather for Farmers</h1>
+        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>Real-time weather and farming advice for your area</p>
       </div>
 
       {/* Search Box */}
-      <div className="bg-white rounded-3xl shadow-sm border border-green-100 p-6 mb-6">
+      <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl shadow-sm border p-6 mb-6 transition-colors`}>
         <div className="flex gap-3">
           <div className="relative flex-1">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <MapPin className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
             <input
               type="text"
               value={city}
               onChange={(e) => setCity(e.target.value)}
               onKeyDown={handleKey}
               placeholder="Enter your city or district..."
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-gray-800 placeholder-gray-400"
+              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
             />
           </div>
           <button
@@ -127,13 +129,13 @@ export default function Weather() {
 
         {/* Quick Cities */}
         <div className="mt-4">
-          <p className="text-xs text-gray-400 font-medium mb-2">POPULAR CITIES</p>
+          <p className={`text-xs font-medium mb-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>POPULAR CITIES</p>
           <div className="flex flex-wrap gap-2">
             {quickCities.map(c => (
               <button
                 key={c}
                 onClick={() => { setCity(c); fetchWeather(c) }}
-                className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full transition-colors"
+                className={`text-xs border px-3 py-1.5 rounded-full transition-colors ${isDarkMode ? 'bg-blue-900/30 text-blue-400 border-blue-700 hover:bg-blue-900/50' : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'}`}
               >
                 {c}
               </button>
@@ -153,7 +155,7 @@ export default function Weather() {
       {loading && (
         <div className="text-center py-16">
           <CloudSun className="w-12 h-12 mx-auto mb-3 animate-pulse text-blue-400" />
-          <p className="text-gray-400">Fetching weather data...</p>
+          <p className={isDarkMode ? 'text-gray-400' : 'text-gray-400'}>Fetching weather data...</p>
         </div>
       )}
 
@@ -201,25 +203,25 @@ export default function Weather() {
           </div>
 
           {/* Farming Advice */}
-          <div className="bg-green-50 border border-green-200 rounded-2xl p-5 mb-6">
-            <p className="text-sm font-semibold text-green-800 mb-1">🌾 Farming Advice for Today</p>
-            <p className="text-green-700">
+          <div className={`${isDarkMode ? 'bg-green-900/30 border-green-700' : 'bg-green-50 border-green-200'} border rounded-2xl p-5 mb-6 transition-colors`}>
+            <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-green-400' : 'text-green-800'}`}>🌾 Farming Advice for Today</p>
+            <p className={isDarkMode ? 'text-green-300' : 'text-green-700'}>
               {getFarmingAdvice(weather.current.weather_code, weather.current.temperature_2m)}
             </p>
           </div>
 
           {/* 5 Day Forecast */}
           {forecast.length > 0 && (
-            <div className="bg-white rounded-3xl shadow-sm border border-green-100 p-6">
-              <h3 className="font-bold text-gray-800 mb-4">5-Day Forecast</h3>
+            <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl shadow-sm border p-6 transition-colors`}>
+              <h3 className={`font-bold mb-4 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>5-Day Forecast</h3>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                 {forecast.map((day, i) => (
-                  <div key={i} className="bg-blue-50 rounded-2xl p-4 text-center">
-                    <p className="text-xs text-gray-500 font-medium mb-2">{getDayName(day.date)}</p>
+                  <div key={i} className={`${isDarkMode ? 'bg-blue-900/30' : 'bg-blue-50'} rounded-2xl p-4 text-center`}>
+                    <p className={`text-xs font-medium mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{getDayName(day.date)}</p>
                     <div className="text-3xl mb-2">{getWeatherEmoji(day.code)}</div>
-                    <p className="font-bold text-gray-800 text-sm">{Math.round(day.max)}°C</p>
-                    <p className="text-xs text-gray-400">{Math.round(day.min)}°C</p>
-                    <p className="text-xs text-gray-500 mt-1">{getWeatherDesc(day.code)}</p>
+                    <p className={`font-bold text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{Math.round(day.max)}°C</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{Math.round(day.min)}°C</p>
+                    <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{getWeatherDesc(day.code)}</p>
                   </div>
                 ))}
               </div>
@@ -230,9 +232,9 @@ export default function Weather() {
 
       {/* Empty State */}
       {!weather && !loading && !error && (
-        <div className="text-center py-16 text-gray-400">
+        <div className={`text-center py-16 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
           <CloudSun className="w-16 h-16 mx-auto mb-4 text-blue-300" />
-          <p className="text-lg font-medium text-gray-500">Search your city to see weather</p>
+          <p className={`text-lg font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Search your city to see weather</p>
           <p className="text-sm mt-1">Free real-time data, no signup needed</p>
         </div>
       )}

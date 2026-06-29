@@ -3,6 +3,7 @@ import {
   BookOpen, Droplets, Bug, Sprout, Sun,
   Wind, ChevronDown, ChevronUp, Search, Clock, AlertTriangle, CheckCircle, Info, Leaf, Thermometer, FlaskConical
 } from 'lucide-react'
+import useThemeStore from '../store/themeStore'
 
 const categories = [
   { id: 'all', label: 'All Topics', icon: <BookOpen className="w-4 h-4" /> },
@@ -594,23 +595,23 @@ const difficultyColor = {
   Advanced: 'bg-red-100 text-red-700',
 }
 
-function SectionRenderer({ section }) {
+function SectionRenderer({ section, isDarkMode }) {
   if (section.type === 'intro') {
     return (
-      <div className="bg-green-50 border-l-4 border-green-400 rounded-lg p-4 mb-4">
-        <p className="text-gray-700 text-sm leading-relaxed">{section.text}</p>
+      <div className={`border-l-4 rounded-lg p-4 mb-4 ${isDarkMode ? 'bg-green-900/30 border-green-600' : 'bg-green-50 border-green-400'}`}>
+        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{section.text}</p>
       </div>
     )
   }
   if (section.type === 'steps') {
     return (
       <div className="mb-5">
-        <p className="font-semibold text-gray-800 text-sm mb-2">{section.title}</p>
+        <p className={`font-semibold text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{section.title}</p>
         <ol className="space-y-2">
           {section.steps.map((step, i) => {
             const parts = step.split(/\*\*(.*?)\*\*/g)
             return (
-              <li key={i} className="flex gap-3 text-sm text-gray-700 leading-relaxed">
+              <li key={i} className={`flex gap-3 text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
                 <span>{parts.map((p, j) => j % 2 === 1 ? <strong key={j}>{p}</strong> : p)}</span>
               </li>
@@ -623,8 +624,8 @@ function SectionRenderer({ section }) {
   if (section.type === 'table') {
     return (
       <div className="mb-5">
-        <p className="font-semibold text-gray-800 text-sm mb-2">{section.title}</p>
-        <div className="overflow-x-auto rounded-xl border border-green-100">
+        <p className={`font-semibold text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{section.title}</p>
+        <div className={`overflow-x-auto rounded-xl border ${isDarkMode ? 'border-gray-700' : 'border-green-100'}`}>
           <table className="min-w-full text-xs">
             <thead>
               <tr className="bg-green-700 text-white">
@@ -635,9 +636,9 @@ function SectionRenderer({ section }) {
             </thead>
             <tbody>
               {section.rows.map((row, i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-green-50'}>
+                <tr key={i} className={isDarkMode ? 'bg-gray-800' : (i % 2 === 0 ? 'bg-white' : 'bg-green-50')}>
                   {row.map((cell, j) => (
-                    <td key={j} className={`px-3 py-2 text-gray-700 align-top ${j === 0 ? 'font-medium text-gray-900' : ''}`}>{cell}</td>
+                    <td key={j} className={`px-3 py-2 align-top ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} ${j === 0 ? 'font-medium ' + (isDarkMode ? 'text-gray-200' : 'text-gray-900') : ''}`}>{cell}</td>
                   ))}
                 </tr>
               ))}
@@ -649,17 +650,17 @@ function SectionRenderer({ section }) {
   }
   if (section.type === 'warning') {
     return (
-      <div className="flex gap-3 bg-red-50 border border-red-200 rounded-xl p-4 mb-4">
+      <div className={`flex gap-3 border rounded-xl p-4 mb-4 ${isDarkMode ? 'bg-red-900/30 border-red-700' : 'bg-red-50 border-red-200'}`}>
         <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-        <p className="text-sm text-red-800 leading-relaxed">{section.text}</p>
+        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-red-300' : 'text-red-800'}`}>{section.text}</p>
       </div>
     )
   }
   if (section.type === 'tip') {
     return (
-      <div className="flex gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+      <div className={`flex gap-3 border rounded-xl p-4 mb-4 ${isDarkMode ? 'bg-amber-900/30 border-amber-700' : 'bg-amber-50 border-amber-200'}`}>
         <CheckCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-        <p className="text-sm text-amber-900 leading-relaxed">{section.text}</p>
+        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-amber-300' : 'text-amber-900'}`}>{section.text}</p>
       </div>
     )
   }
@@ -670,6 +671,7 @@ export default function Advice() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [search, setSearch] = useState('')
   const [expanded, setExpanded] = useState(null)
+  const { isDarkMode } = useThemeStore()
 
   const filtered = advice.filter(a => {
     const matchCat = activeCategory === 'all' || a.category === activeCategory
@@ -687,19 +689,19 @@ export default function Advice() {
         <div className="bg-amber-500 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <BookOpen className="text-white w-7 h-7" />
         </div>
-        <h1 className="text-3xl font-bold text-green-900">Farming Advice</h1>
-        <p className="text-gray-500 mt-2">In-depth expert guidance on soil, irrigation, pests, fertilizers and more</p>
+        <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-green-400' : 'text-green-900'}`}>Farming Advice</h1>
+        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>In-depth expert guidance on soil, irrigation, pests, fertilizers and more</p>
       </div>
 
       {/* Search */}
       <div className="relative mb-6">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search advice topics..."
-          className="w-full pl-11 pr-4 py-3.5 bg-white border border-green-100 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 placeholder-gray-400"
+          className={`w-full pl-11 pr-4 py-3.5 border rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-green-100 text-gray-800'}`}
         />
       </div>
 
@@ -712,7 +714,7 @@ export default function Advice() {
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
               activeCategory === cat.id
                 ? 'bg-green-600 text-white shadow-sm'
-                : 'bg-white text-gray-600 border border-green-100 hover:border-green-300'
+                : `${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-green-600' : 'bg-white text-gray-600 border border-green-100 hover:border-green-300'}`
             }`}
           >
             {cat.icon}
@@ -722,8 +724,8 @@ export default function Advice() {
       </div>
 
       {/* Results Count */}
-      <p className="text-sm text-gray-500 mb-4">
-        Showing <span className="font-semibold text-green-700">{filtered.length}</span> articles
+      <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+        Showing <span className={`font-semibold ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>{filtered.length}</span> articles
       </p>
 
       {/* Advice Cards */}
@@ -731,7 +733,7 @@ export default function Advice() {
         {filtered.map((item, i) => (
           <div
             key={i}
-            className="bg-white rounded-3xl border border-green-100 shadow-sm overflow-hidden"
+            className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl border shadow-sm overflow-hidden transition-colors`}
           >
             {/* Card Header */}
             <button
@@ -743,24 +745,24 @@ export default function Advice() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full">
+                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${isDarkMode ? 'text-amber-400 bg-amber-900/30' : 'text-amber-600 bg-amber-50'}`}>
                         {item.tag}
                       </span>
                       <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${difficultyColor[item.difficulty]}`}>
                         {item.difficulty}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-gray-400">
+                      <span className={`flex items-center gap-1 text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
                         <Clock className="w-3 h-3" />
                         {item.readTime} read
                       </span>
                     </div>
-                    <h3 className="font-bold text-gray-800 text-lg leading-tight">{item.title}</h3>
-                    <p className="text-gray-500 text-sm mt-1">{item.summary}</p>
+                    <h3 className={`font-bold text-lg leading-tight ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{item.title}</h3>
+                    <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mt-1`}>{item.summary}</p>
                   </div>
                   <div className="flex-shrink-0 mt-1">
                     {expanded === i
-                      ? <ChevronUp className="w-5 h-5 text-gray-400" />
-                      : <ChevronDown className="w-5 h-5 text-gray-400" />
+                      ? <ChevronUp className={`w-5 h-5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+                      : <ChevronDown className={`w-5 h-5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                     }
                   </div>
                 </div>
@@ -769,10 +771,10 @@ export default function Advice() {
 
             {/* Expanded Content */}
             {expanded === i && (
-              <div className="px-6 pb-6 pt-0 border-t border-green-50">
+              <div className={`px-6 pb-6 pt-0 border-t ${isDarkMode ? 'border-gray-800' : 'border-green-50'}`}>
                 <div className="mt-4 space-y-2">
                   {item.sections.map((section, j) => (
-                    <SectionRenderer key={j} section={section} />
+                    <SectionRenderer key={j} section={section} isDarkMode={isDarkMode} />
                   ))}
                 </div>
               </div>
@@ -784,9 +786,9 @@ export default function Advice() {
       {/* No Results */}
       {filtered.length === 0 && (
         <div className="text-center py-16">
-          <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-          <p className="text-lg font-medium text-gray-500">No articles found</p>
-          <p className="text-sm text-gray-400 mt-1">Try a different search term</p>
+          <BookOpen className={`w-16 h-16 mx-auto mb-4 ${isDarkMode ? 'text-gray-700' : 'text-gray-300'}`} />
+          <p className={`text-lg font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>No articles found</p>
+          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Try a different search term</p>
         </div>
       )}
 

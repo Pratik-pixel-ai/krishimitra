@@ -1,21 +1,28 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Sprout, User, Loader2, MessageSquare } from 'lucide-react'
 import { aiService } from '../services/api'
+import useLanguageStore from '../store/languageStore'
+import useThemeStore from '../store/themeStore'
 
-const suggestions = [
-  "Which crops should I grow in June?",
-  "How to increase wheat yield?",
-  "Best fertilizer for rice crops?",
-  "How to protect crops from pests?",
-  "When should I irrigate my field?",
-  "What is the best soil for tomatoes?",
+const suggestionKeys = [
+  'whichCropsJune',
+  'increaseWheatYield',
+  'fertilizerRice',
+  'protectPests',
+  'whenIrrigate',
+  'soilTomatoes',
 ]
 
 export default function Chat() {
+  const { t } = useLanguageStore()
+  const { isDarkMode } = useThemeStore()
+
+  const suggestions = suggestionKeys.map(key => t(key))
+
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Namaste! 🙏 I am Kisaan AI, your smart farming assistant. Ask me anything about crops, soil, weather, fertilizers, or farming techniques. I am here to help!"
+      content: t('welcomeMessage')
     }
   ])
   const [input, setInput] = useState('')
@@ -62,12 +69,12 @@ export default function Chat() {
         <div className="bg-green-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <MessageSquare className="text-white w-7 h-7" />
         </div>
-        <h1 className="text-3xl font-bold text-green-900">AI Farming Assistant</h1>
-        <p className="text-gray-500 mt-2">Ask anything about farming, crops, or agriculture</p>
+        <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-green-400' : 'text-green-900'}`}>{t('aiFarmingAssistantTitle')}</h1>
+        <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>{t('askAboutFarming')}</p>
       </div>
 
       {/* Chat Box */}
-      <div className="bg-white rounded-3xl shadow-sm border border-green-100 overflow-hidden">
+      <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl shadow-sm border overflow-hidden transition-colors`}>
 
         {/* Messages */}
         <div className="h-[420px] overflow-y-auto p-6 space-y-4">
@@ -81,7 +88,7 @@ export default function Chat() {
               </div>
               <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                 msg.role === 'assistant'
-                  ? 'bg-green-50 text-gray-800 rounded-tl-sm'
+                  ? `${isDarkMode ? 'bg-green-900/30 text-gray-200' : 'bg-green-50 text-gray-800'} rounded-tl-sm`
                   : 'bg-green-600 text-white rounded-tr-sm'
               }`}>
                 {msg.content}
@@ -94,8 +101,8 @@ export default function Chat() {
               <div className="w-9 h-9 rounded-xl bg-green-600 flex items-center justify-center flex-shrink-0">
                 <Sprout className="w-5 h-5 text-white" />
               </div>
-              <div className="bg-green-50 px-4 py-3 rounded-2xl rounded-tl-sm">
-                <Loader2 className="w-4 h-4 text-green-600 animate-spin" />
+              <div className={`${isDarkMode ? 'bg-green-900/30' : 'bg-green-50'} px-4 py-3 rounded-2xl rounded-tl-sm`}>
+                <Loader2 className={`w-4 h-4 ${isDarkMode ? 'text-green-400' : 'text-green-600'} animate-spin`} />
               </div>
             </div>
           )}
@@ -106,13 +113,13 @@ export default function Chat() {
         {/* Suggestions */}
         {messages.length === 1 && (
           <div className="px-6 pb-4">
-            <p className="text-xs text-gray-400 font-medium mb-3">QUICK QUESTIONS</p>
+            <p className={`text-xs font-medium mb-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('quickQuestions')}</p>
             <div className="flex flex-wrap gap-2">
               {suggestions.map((s, i) => (
                 <button
                   key={i}
                   onClick={() => sendMessage(s)}
-                  className="text-xs bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 px-3 py-1.5 rounded-full transition-colors"
+                  className={`text-xs border px-3 py-1.5 rounded-full transition-colors ${isDarkMode ? 'bg-green-900/30 text-green-400 border-green-700 hover:bg-green-900/50' : 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'}`}
                 >
                   {s}
                 </button>
@@ -122,15 +129,15 @@ export default function Chat() {
         )}
 
         {/* Input */}
-        <div className="border-t border-green-100 p-4">
+        <div className={`border-t p-4 ${isDarkMode ? 'border-gray-800' : 'border-green-100'}`}>
           <div className="flex gap-3 items-end">
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKey}
-              placeholder="Ask about crops, soil, fertilizers..."
+              placeholder={t('askAboutCrops')}
               rows={1}
-              className="flex-1 resize-none border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-800 placeholder-gray-400"
+              className={`flex-1 resize-none border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
             />
             <button
               onClick={() => sendMessage()}
@@ -140,7 +147,7 @@ export default function Chat() {
               <Send className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-2 text-center">Press Enter to send · Shift+Enter for new line</p>
+          <p className={`text-xs mt-2 text-center ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('pressEnter')}</p>
         </div>
 
       </div>
