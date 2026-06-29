@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
-import { Sprout, MessageSquareText, CloudSun, BookOpen, LogOut, User } from 'lucide-react'
+import { Sprout, MessageSquareText, CloudSun, BookOpen, LogOut, User, Tractor } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function Dashboard() {
@@ -17,6 +17,7 @@ export default function Dashboard() {
     { icon: <CloudSun className="w-7 h-7 text-blue-500" />, title: "Weather", desc: "Live weather for your area", link: "/weather", bg: "bg-blue-50" },
     { icon: <Sprout className="w-7 h-7 text-emerald-600" />, title: "Crops", desc: "Best crops for your soil", link: "/crops", bg: "bg-emerald-50" },
     { icon: <BookOpen className="w-7 h-7 text-amber-500" />, title: "Advice", desc: "Expert farming tips", link: "/advice", bg: "bg-amber-50" },
+    { icon: <Tractor className="w-7 h-7 text-green-700" />, title: "Farm Profile", desc: "Your soil, size & crops", link: "/farm-profile", bg: "bg-green-50" },
   ]
 
   return (

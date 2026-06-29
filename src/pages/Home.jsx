@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { CloudSun, MessageSquareText, Sprout, TrendingUp, ShieldCheck, Mic } from 'lucide-react'
+import farmBg from "../assets/images/farm-bg.jpg";
 
 const features = [
   {
@@ -42,12 +43,27 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="relative h-[90vh]">
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-3xl">
+      <section
+  className="relative min-h-screen bg-cover bg-center bg-no-repeat text-white"
+  style={{
+  backgroundImage: `linear-gradient(
+    to right,
+    rgba(0,0,0,.75),
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.15)
+  ), url(${farmBg})`,
+  backgroundPosition: "right center",
+  backgroundSize: "cover",
+}}
+>
+  
+
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+
+    <div className="max-w-3xl">
             <span className="inline-block bg-green-500/30 border border-green-400/40 text-green-100 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               🌾 Built for Indian Farmers
             </span>
@@ -69,12 +85,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Wave */}
-        <div className="w-full overflow-hidden leading-none">
-          <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path fill="#f9f6f0" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" />
-          </svg>
-        </div>
+        
       </section>
 
       {/* Stats */}
