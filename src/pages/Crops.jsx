@@ -190,11 +190,9 @@ const crops = [
 
 const seasons = ['All', 'Kharif', 'Rabi', 'Annual']
 const waterLevels = ['All', 'Low', 'Medium', 'High']
-const profitLevels = ['All', 'High', 'Medium']
 const soilTypes = ['All', 'Clay', 'Sandy', 'Loamy', 'Black Cotton', 'Red', 'Alluvial', 'Sandy Loam']
 
 const waterColor = { Low: 'text-sky-500', Medium: 'text-blue-500', High: 'text-indigo-600' }
-const waterBg = { Low: 'bg-sky-50 text-sky-700', Medium: 'bg-blue-50 text-blue-700', High: 'bg-indigo-50 text-indigo-700' }
 const profitColor = { High: 'text-green-600', 'High (volatile)': 'text-amber-500', Medium: 'text-blue-600', 'Medium (volatile)': 'text-amber-500' }
 
 export default function Crops() {
@@ -206,10 +204,8 @@ export default function Crops() {
   const [farmSoil, setFarmSoil] = useState(null)
   const { isDarkMode } = useThemeStore()
   const { t } = useLanguageStore()
-
   const { farmer } = useAuthStore()
 
-  // Try to load farm profile soil type
   useEffect(() => {
     api.get('/farmer/profile').then(res => {
       if (res.data?.soilType) setFarmSoil(res.data.soilType)
@@ -243,8 +239,8 @@ export default function Crops() {
             <Sprout className="text-white w-5 h-5" />
           </div>
           <div>
-            <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-green-400' : 'text-green-900'}`}>Crop Guide</h1>
-            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm`}>Season-wise info, MSP prices & farming tips</p>
+            <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-green-400' : 'text-green-900'}`}>{t('cropGuide')}</h1>
+            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm`}>{t('cropGuideDesc')}</p>
           </div>
         </div>
 
@@ -254,14 +250,14 @@ export default function Crops() {
             <div className="flex items-center gap-2">
               <Leaf className={`w-4 h-4 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
               <span className={`text-sm ${isDarkMode ? 'text-green-300' : 'text-green-800'}`}>
-                Your soil: <strong>{farmSoil}</strong> — <span className={isDarkMode ? 'text-green-400' : 'text-green-600'}>{suitableCount} suitable crops highlighted</span>
+                {t('yourSoil')} <strong>{farmSoil}</strong> — <span className={isDarkMode ? 'text-green-400' : 'text-green-600'}>{suitableCount} {t('suitableCrops')}</span>
               </span>
             </div>
             <button
               onClick={() => setSelectedSoil(farmSoil)}
               className="text-xs bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 transition"
             >
-              Filter by my soil
+              {t('filterByMySoil')}
             </button>
           </div>
         )}
@@ -276,7 +272,7 @@ export default function Crops() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by crop name, Hindi name, or soil type..."
+            placeholder={t('searchPlaceholder')}
             className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-sm transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
           />
         </div>
@@ -331,8 +327,8 @@ export default function Crops() {
 
       {/* Results count */}
       <p className={`text-sm mb-4 px-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-        Showing <span className={`font-semibold ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>{filtered.length}</span> crops
-        {selectedSoil !== 'All' && <span className="text-amber-600"> · filtered by {selectedSoil} soil</span>}
+        {t('showing')} <span className={`font-semibold ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>{filtered.length}</span> {t('crops')}
+        {selectedSoil !== 'All' && <span className="text-amber-600"> {t('filteredBy')} {selectedSoil} {t('soil')}</span>}
       </p>
 
       {/* Crop Grid */}
@@ -372,17 +368,17 @@ export default function Crops() {
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   <div className={`rounded-2xl p-2.5 text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'}`}>
                     <Thermometer className="w-3.5 h-3.5 text-red-400 mx-auto mb-1" />
-                    <p className={`text-xs leading-none mb-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Temp</p>
+                    <p className={`text-xs leading-none mb-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('temp')}</p>
                     <p className={`text-xs font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{crop.temp}</p>
                   </div>
                   <div className={`rounded-2xl p-2.5 text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'}`}>
                     <Droplets className={`w-3.5 h-3.5 mx-auto mb-1 ${waterColor[crop.water] || 'text-blue-500'}`} />
-                    <p className={`text-xs leading-none mb-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Water</p>
+                    <p className={`text-xs leading-none mb-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('water')}</p>
                     <p className={`text-xs font-bold ${waterColor[crop.water] || (isDarkMode ? 'text-gray-300' : 'text-gray-700')}`}>{crop.water}</p>
                   </div>
                   <div className={`rounded-2xl p-2.5 text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'}`}>
                     <Clock className="w-3.5 h-3.5 text-green-500 mx-auto mb-1" />
-                    <p className={`text-xs leading-none mb-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Duration</p>
+                    <p className={`text-xs leading-none mb-0.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('duration')}</p>
                     <p className={`text-xs font-bold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{crop.duration.split(' ')[0]}</p>
                   </div>
                 </div>
@@ -392,14 +388,14 @@ export default function Crops() {
                   <div className={`rounded-2xl px-3 py-2 ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'}`}>
                     <div className="flex items-center gap-1 mb-0.5">
                       <IndianRupee className="w-3 h-3 text-green-600" />
-                      <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>MSP Price</p>
+                      <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('mspPrice')}</p>
                     </div>
                     <p className={`text-xs font-bold leading-snug ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>{crop.msp}</p>
                   </div>
                   <div className={`rounded-2xl px-3 py-2 ${isDarkMode ? 'bg-gray-800' : 'bg-white/70'}`}>
                     <div className="flex items-center gap-1 mb-0.5">
                       <TrendingUp className="w-3 h-3 text-blue-500" />
-                      <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Avg Yield</p>
+                      <p className={`text-xs font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('avgYield')}</p>
                     </div>
                     <p className={`text-xs font-bold leading-snug ${isDarkMode ? 'text-blue-400' : 'text-blue-700'}`}>{crop.yield}</p>
                   </div>
@@ -417,7 +413,7 @@ export default function Crops() {
                 {/* Months */}
                 <div className={`flex items-center gap-2 mb-4 rounded-xl px-3 py-2 ${isDarkMode ? 'bg-gray-800' : 'bg-white/60'}`}>
                   <Sun className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}><span className="font-semibold">Growing:</span> {crop.months} &nbsp;·&nbsp; {crop.duration}</p>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}><span className="font-semibold">{t('growing')}</span> {crop.months} &nbsp;·&nbsp; {crop.duration}</p>
                 </div>
 
                 {/* Expand toggle */}
@@ -436,7 +432,7 @@ export default function Crops() {
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
                         <MapPin className={`w-3.5 h-3.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
-                        <p className={`text-xs font-semibold uppercase tracking-wide ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>Best States</p>
+                        <p className={`text-xs font-semibold uppercase tracking-wide ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{t('bestStates')}</p>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {crop.states.map((state, j) => (
@@ -451,7 +447,7 @@ export default function Crops() {
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
                         <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
-                        <p className={`text-xs font-semibold uppercase tracking-wide ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>Common Pests / Diseases</p>
+                        <p className={`text-xs font-semibold uppercase tracking-wide ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{t('commonPests')}</p>
                       </div>
                       <p className={`text-sm rounded-xl px-3 py-2 ${isDarkMode ? 'text-gray-300 bg-amber-900/30 border-amber-700' : 'text-gray-700 bg-amber-50 border border-amber-100'}`}>{crop.pest}</p>
                     </div>
@@ -460,7 +456,7 @@ export default function Crops() {
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
                         <Leaf className="w-3.5 h-3.5 text-green-500" />
-                        <p className={`text-xs font-semibold uppercase tracking-wide ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>Farming Tips</p>
+                        <p className={`text-xs font-semibold uppercase tracking-wide ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{t('farmingTips')}</p>
                       </div>
                       <p className={`text-sm leading-relaxed rounded-xl px-3 py-2.5 ${isDarkMode ? 'text-gray-300 bg-gray-800 border-gray-700' : 'text-gray-700 bg-white/80 border border-gray-100'}`}>{crop.tips}</p>
                     </div>
@@ -469,7 +465,7 @@ export default function Crops() {
                     <div className={`flex items-center justify-between rounded-xl px-3 py-2.5 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white/80 border border-gray-100'}`}>
                       <div className="flex items-center gap-1.5">
                         <TrendingUp className={`w-3.5 h-3.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
-                        <p className={`text-xs font-semibold ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>Profit Potential</p>
+                        <p className={`text-xs font-semibold ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{t('profitPotential')}</p>
                       </div>
                       <span className={`text-sm font-bold ${profitColor[crop.profit] || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
                         {crop.profit}
@@ -487,13 +483,13 @@ export default function Crops() {
       {filtered.length === 0 && (
         <div className="text-center py-20">
           <Sprout className={`w-14 h-14 mx-auto mb-4 ${isDarkMode ? 'text-gray-700' : 'text-gray-200'}`} />
-          <p className={`text-lg font-semibold ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>No crops match your filters</p>
-          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>Try clearing a filter or changing your search</p>
+          <p className={`text-lg font-semibold ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{t('noCropsMatch')}</p>
+          <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('tryClearing')}</p>
           <button
             onClick={() => { setSearch(''); setSelectedSeason('All'); setSelectedWater('All'); setSelectedSoil('All') }}
             className={`mt-4 text-sm font-medium underline underline-offset-2 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`}
           >
-            Clear all filters
+            {t('clearAllFilters')}
           </button>
         </div>
       )}
