@@ -1,52 +1,16 @@
 import { Link } from 'react-router-dom'
-import { CloudSun, MessageSquareText, Sprout, TrendingUp, ShieldCheck, Mic } from 'lucide-react'
-import farmBg from "../assets/images/farm-bg.jpg";
+import { CloudSun, MessageSquareText, Sprout, TrendingUp, ShieldCheck, Mic, ArrowRight } from 'lucide-react'
+import farmBg from "../assets/images/farm-bg.jpg"
 import useLanguageStore from '../store/languageStore'
 import useThemeStore from '../store/themeStore'
 
 const features = [
-  {
-    icon: <MessageSquareText className="w-7 h-7 text-green-600" />,
-    titleKey: "aiFarmingAssistant",
-    descKey: "aiFarmingDesc",
-    bg: "bg-green-50",
-    darkBg: "bg-green-900/30"
-  },
-  {
-    icon: <CloudSun className="w-7 h-7 text-blue-500" />,
-    titleKey: "liveWeather",
-    descKey: "liveWeatherDesc",
-    bg: "bg-blue-50",
-    darkBg: "bg-blue-900/30"
-  },
-  {
-    icon: <Sprout className="w-7 h-7 text-emerald-600" />,
-    titleKey: "cropRecommendations",
-    descKey: "cropRecommendationsDesc",
-    bg: "bg-emerald-50",
-    darkBg: "bg-emerald-900/30"
-  },
-  {
-    icon: <TrendingUp className="w-7 h-7 text-orange-500" />,
-    titleKey: "farmingAdvice",
-    descKey: "farmingAdviceDesc",
-    bg: "bg-orange-50",
-    darkBg: "bg-orange-900/30"
-  },
-  {
-    icon: <ShieldCheck className="w-7 h-7 text-purple-500" />,
-    titleKey: "trustedReliable",
-    descKey: "trustedReliableDesc",
-    bg: "bg-purple-50",
-    darkBg: "bg-purple-900/30"
-  },
-  {
-    icon: <Mic className="w-7 h-7 text-red-500" />,
-    titleKey: "voiceSupport",
-    descKey: "voiceSupportDesc",
-    bg: "bg-red-50",
-    darkBg: "bg-red-900/30"
-  }
+  { icon: MessageSquareText, titleKey: "aiFarmingAssistant", descKey: "aiFarmingDesc", tint: "from-green-500 to-emerald-600" },
+  { icon: CloudSun, titleKey: "liveWeather", descKey: "liveWeatherDesc", tint: "from-sky-400 to-blue-500" },
+  { icon: Sprout, titleKey: "cropRecommendations", descKey: "cropRecommendationsDesc", tint: "from-emerald-500 to-teal-600" },
+  { icon: TrendingUp, titleKey: "farmingAdvice", descKey: "farmingAdviceDesc", tint: "from-amber-400 to-orange-500" },
+  { icon: ShieldCheck, titleKey: "trustedReliable", descKey: "trustedReliableDesc", tint: "from-violet-500 to-purple-600" },
+  { icon: Mic, titleKey: "voiceSupport", descKey: "voiceSupportDesc", tint: "from-rose-500 to-red-600" },
 ]
 
 export default function Home() {
@@ -54,63 +18,66 @@ export default function Home() {
   const { isDarkMode } = useThemeStore()
 
   return (
-    <div className="relative h-[90vh]">
-
+    <div>
       {/* Hero Section */}
-      <section
-  className="relative min-h-screen bg-cover bg-center bg-no-repeat text-white"
-  style={{
-  backgroundImage: `linear-gradient(
-    to right,
-    rgba(0,0,0,.75),
-    rgba(0,0,0,.55),
-    rgba(0,0,0,.15)
-  ), url(${farmBg})`,
-  backgroundPosition: "right center",
-  backgroundSize: "cover",
-}}
->
-  
-
-  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-
-    <div className="max-w-3xl">
-            <span className="inline-block bg-green-500/30 border border-green-400/40 text-green-100 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+      <section className="relative min-h-[88vh] text-white rounded-[28px] sm:rounded-[40px] overflow-hidden isolate">
+        <div
+          className="absolute inset-0 bg-cover bg-no-repeat"
+          style={{
+            backgroundImage: `url(${farmBg})`,
+            backgroundPosition: "right center",
+            backgroundSize: "cover",
+            filter: "brightness(1.12) saturate(1.06)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(
+              to right,
+              rgba(8,20,12,.70),
+              rgba(8,20,12,.42),
+              rgba(8,20,12,.08)
+            )`,
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col justify-center min-h-[88vh]">
+          <div className="max-w-3xl km-rise">
+            <span className="inline-flex items-center gap-2 glass-hero text-white text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+              <Sprout className="w-3.5 h-3.5 text-green-300" />
               {t('builtForFarmers')}
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+            <h1 className="font-display text-4xl md:text-6xl font-bold leading-tight mb-6">
               {t('smartFarmingStartsHere')} <br />
-              <span className="text-yellow-300">{t('startsHere')}</span>
+              <span className="bg-gradient-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent">{t('startsHere')}</span>
             </h1>
-            <p className="text-green-100 text-lg md:text-xl mb-8 leading-relaxed max-w-2xl">
+            <p className="text-green-50/90 text-lg md:text-xl mb-8 leading-relaxed max-w-2xl">
               {t('heroDesc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/register" className="bg-yellow-400 hover:bg-yellow-300 text-green-900 font-bold px-8 py-3.5 rounded-xl text-center transition-colors text-lg">
+              <Link to="/register" className="btn-pill bg-gradient-to-r from-amber-400 to-yellow-300 text-[#1B5E20] font-bold px-8 py-3.5 text-center text-lg shadow-lg shadow-amber-900/20 flex items-center justify-center gap-2 group">
                 {t('startForFree')}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/chat" className="border-2 border-white/40 hover:border-white text-white font-semibold px-8 py-3.5 rounded-xl text-center transition-colors text-lg">
+              <Link to="/chat" className="btn-pill glass-hero hover:bg-white/15 text-white font-semibold px-8 py-3.5 text-center text-lg transition-all">
                 {t('tryAIChat')}
               </Link>
             </div>
           </div>
         </div>
-
-        
       </section>
 
       {/* Stats */}
-      <section className={`${isDarkMode ? 'bg-gray-900' : 'bg-[#f9f6f0]'} py-12 transition-colors`}>
+      <section className="py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
-              { value: "10,000+", labelKey: "farmersHelped" },
-              { value: "15+", labelKey: "cropTypes" },
+              { value: "10+", labelKey: "cropTypes" },
               { value: "24/7", labelKey: "aiAvailable" },
               { value: "Free", labelKey: "toUse" },
             ].map((stat, i) => (
-              <div key={i} className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-green-100'} rounded-2xl p-6 text-center shadow-sm border transition-colors`}>
-                <div className={`text-3xl font-bold ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>{stat.value}</div>
+              <div key={i} className={`km-card km-card-hover km-rise km-delay-${i + 1} p-6 text-center`}>
+                <div className="font-mono-km text-3xl font-bold bg-gradient-to-br from-[#2E7D32] to-[#66BB6A] bg-clip-text text-transparent">{stat.value}</div>
                 <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mt-1`}>{t(stat.labelKey)}</div>
               </div>
             ))}
@@ -119,19 +86,19 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className={`${isDarkMode ? 'bg-gray-900' : 'bg-[#f9f6f0]'} py-16 transition-colors`}>
+      <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? 'text-green-400' : 'text-green-900'}`}>{t('everythingFarmerNeeds')}</h2>
+          <div className="text-center mb-12 km-rise">
+            <h2 className={`font-display text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? 'text-green-300' : 'text-[#1B5E20]'}`}>{t('everythingFarmerNeeds')}</h2>
             <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-lg max-w-xl mx-auto`}>{t('onePlatform')}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((f, i) => (
-              <div key={i} className={`${isDarkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-green-50 hover:shadow-md'} rounded-2xl p-6 shadow-sm border transition-all`}>
-                <div className={`${isDarkMode ? f.darkBg : f.bg} w-14 h-14 rounded-xl flex items-center justify-center mb-4`}>
-                  {f.icon}
+              <div key={i} className={`km-card km-card-hover km-rise km-delay-${(i % 6) + 1} p-6 group`}>
+                <div className={`bg-gradient-to-br ${f.tint} w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-green-900/10 group-hover:rotate-6 transition-transform duration-300`}>
+                  <f.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{t(f.titleKey)}</h3>
+                <h3 className={`font-display font-bold text-lg mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{t(f.titleKey)}</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} leading-relaxed`}>{t(f.descKey)}</p>
               </div>
             ))}
@@ -140,27 +107,30 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className={`${isDarkMode ? 'bg-green-900' : 'bg-green-800'} text-white py-16 transition-colors`}>
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('readyToFarm')}</h2>
-          <p className="text-green-200 text-lg mb-8">{t('joinThousands')}</p>
-          <Link to="/register" className="bg-yellow-400 hover:bg-yellow-300 text-green-900 font-bold px-10 py-4 rounded-xl text-lg inline-block transition-colors">
+      <section className="py-16 mx-3 sm:mx-6 mb-6">
+        <div className="max-w-4xl mx-auto px-8 py-14 text-center rounded-[32px] bg-gradient-to-br from-[#1B5E20] via-[#2E7D32] to-[#388E3C] text-white relative overflow-hidden">
+          <div className="absolute -right-10 -top-10 w-56 h-56 bg-white/10 rounded-full blur-2xl" />
+          <div className="absolute -left-10 -bottom-10 w-56 h-56 bg-amber-300/10 rounded-full blur-2xl" />
+          <h2 className="font-display relative text-3xl md:text-4xl font-bold mb-4">{t('readyToFarm')}</h2>
+          <p className="relative text-green-100/90 text-lg mb-8">{t('joinThousands')}</p>
+          <Link to="/register" className="btn-pill relative bg-gradient-to-r from-amber-400 to-yellow-300 text-[#1B5E20] font-bold px-10 py-4 text-lg inline-block shadow-lg shadow-amber-900/20">
             {t('createFreeAccount')}
           </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`${isDarkMode ? 'bg-gray-950 text-green-400' : 'bg-green-900 text-green-300'} py-8 transition-colors`}>
+      <footer className={`${isDarkMode ? 'text-green-400' : 'text-green-800'} py-8`}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <Sprout className={`w-5 h-5 ${isDarkMode ? 'text-green-500' : 'text-green-400'}`} />
-            <span className="font-bold text-white text-lg">KrishiMitra</span>
+            <div className="bg-gradient-to-br from-[#2E7D32] to-[#66BB6A] p-1.5 rounded-lg">
+              <Sprout className="w-4 h-4 text-white" />
+            </div>
+            <span className={`font-display font-bold text-lg ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>KrishiMitra</span>
           </div>
-          <p className="text-sm">{t('builtWithLove')}</p>
+          <p className="text-sm opacity-80">{t('builtWithLove')}</p>
         </div>
       </footer>
-
     </div>
   )
 }
