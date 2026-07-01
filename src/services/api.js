@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/api'
+const BASE_URL = 'https://krishimitra-backend-5dw1.onrender.com/api'
 
 const handleResponse = async (res) => {
   const text = await res.text()
@@ -42,46 +42,3 @@ export const aiService = {
     return handleResponse(res)
   }
 }
-
-// Default axios-style api object (used by FarmProfile.jsx)
-const api = {
-  get: async (path) => {
-    const res = await fetch(`${BASE_URL}${path}`, {
-      method: 'GET',
-      headers: authHeaders()
-    })
-    const data = await handleResponse(res)
-    return { data }
-  },
-
-  post: async (path, body) => {
-    const res = await fetch(`${BASE_URL}${path}`, {
-      method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify(body)
-    })
-    const data = await handleResponse(res)
-    return { data }
-  },
-
-  put: async (path, body) => {
-    const res = await fetch(`${BASE_URL}${path}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify(body)
-    })
-    const data = await handleResponse(res)
-    return { data }
-  },
-
-  delete: async (path) => {
-    const res = await fetch(`${BASE_URL}${path}`, {
-      method: 'DELETE',
-      headers: authHeaders()
-    })
-    const data = await handleResponse(res)
-    return { data }
-  }
-}
-
-export default api
