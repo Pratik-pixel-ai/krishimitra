@@ -35,7 +35,7 @@ export default function Login() {
   }
 
   return (
-    <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors ${isDarkMode ? 'bg-[#0a0f0c]' : 'bg-[#f9f6f0]'}`}>
+    <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors ${isDarkMode ? 'bg-gray-950' : 'bg-[#f9f6f0]'}`}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="bg-green-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -45,7 +45,7 @@ export default function Login() {
           <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>{t('loginToAccount')}</p>
         </div>
 
-        <div className={`${isDarkMode ? 'bg-[#121a15] border-[#1a241d]' : 'bg-white border-green-100'} rounded-3xl shadow-sm border p-8 transition-colors`}>
+        <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl shadow-sm border p-8 transition-colors`}>
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 mb-4 text-sm">
               {error}
@@ -54,24 +54,24 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('phoneNumber')}</label>
+              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('phoneNumber')}</label>
               <div className="relative">
                 <Phone className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                 <input type="tel" name="phone" placeholder={t('phonePlaceholder')}
                   value={formData.phone} onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                   required />
               </div>
             </div>
 
             <div>
-              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('password')}</label>
+              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('password')}</label>
               <div className="relative">
                 <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                 <input type={showPassword ? 'text' : 'password'} name="password"
                   placeholder={t('passwordPlaceholder')}
                   value={formData.password} onChange={handleChange}
-                  className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                  className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                   required />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   className={`absolute right-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}>
@@ -86,10 +86,10 @@ export default function Login() {
             </button>
           </form>
 
-          <div className={`flex items-center gap-3 my-6 ${isDarkMode ? 'border-[#26332a]' : ''}`}>
-            <div className={`flex-1 h-px ${isDarkMode ? 'bg-[#26332a]' : 'bg-gray-200'}`} />
+          <div className={`flex items-center gap-3 my-6 ${isDarkMode ? 'border-gray-700' : ''}`}>
+            <div className={`flex-1 h-px ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`} />
             <span className={`${isDarkMode ? 'text-gray-500' : 'text-gray-400'} text-sm`}>{t('or')}</span>
-            <div className={`flex-1 h-px ${isDarkMode ? 'bg-[#26332a]' : 'bg-gray-200'}`} />
+            <div className={`flex-1 h-px ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`} />
           </div>
 
           <button

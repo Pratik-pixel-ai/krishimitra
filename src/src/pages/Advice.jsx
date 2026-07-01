@@ -22,19 +22,19 @@ function SectionRenderer({ section, isDarkMode }) {
   if (section.type === 'intro') {
     return (
       <div className={`border-l-4 rounded-lg p-4 mb-4 ${isDarkMode ? 'bg-green-900/30 border-green-600' : 'bg-green-50 border-green-400'}`}>
-        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{section.text}</p>
+        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{section.text}</p>
       </div>
     )
   }
   if (section.type === 'steps') {
     return (
       <div className="mb-5">
-        <p className={`font-semibold text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-[#1a241d]'}`}>{section.title}</p>
+        <p className={`font-semibold text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{section.title}</p>
         <ol className="space-y-2">
           {section.steps.map((step, i) => {
             const parts = step.split(/\*\*(.*?)\*\*/g)
             return (
-              <li key={i} className={`flex gap-3 text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>
+              <li key={i} className={`flex gap-3 text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
                 <span>{parts.map((p, j) => j % 2 === 1 ? <strong key={j}>{p}</strong> : p)}</span>
               </li>
@@ -47,8 +47,8 @@ function SectionRenderer({ section, isDarkMode }) {
   if (section.type === 'table') {
     return (
       <div className="mb-5">
-        <p className={`font-semibold text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-[#1a241d]'}`}>{section.title}</p>
-        <div className={`overflow-x-auto rounded-xl border ${isDarkMode ? 'border-[#26332a]' : 'border-green-100'}`}>
+        <p className={`font-semibold text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>{section.title}</p>
+        <div className={`overflow-x-auto rounded-xl border ${isDarkMode ? 'border-gray-700' : 'border-green-100'}`}>
           <table className="min-w-full text-xs">
             <thead>
               <tr className="bg-green-700 text-white">
@@ -59,9 +59,9 @@ function SectionRenderer({ section, isDarkMode }) {
             </thead>
             <tbody>
               {section.rows.map((row, i) => (
-                <tr key={i} className={isDarkMode ? 'bg-[#1a241d]' : (i % 2 === 0 ? 'bg-white' : 'bg-green-50')}>
+                <tr key={i} className={isDarkMode ? 'bg-gray-800' : (i % 2 === 0 ? 'bg-white' : 'bg-green-50')}>
                   {row.map((cell, j) => (
-                    <td key={j} className={`px-3 py-2 align-top ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'} ${j === 0 ? 'font-medium ' + (isDarkMode ? 'text-gray-200' : 'text-[#121a15]') : ''}`}>{cell}</td>
+                    <td key={j} className={`px-3 py-2 align-top ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} ${j === 0 ? 'font-medium ' + (isDarkMode ? 'text-gray-200' : 'text-gray-900') : ''}`}>{cell}</td>
                   ))}
                 </tr>
               ))}
@@ -129,7 +129,7 @@ export default function Advice() {
   })
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8">
 
       {/* Header */}
       <div className="text-center mb-8">
@@ -140,43 +140,34 @@ export default function Advice() {
         <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>{t('farmingAdviceDesc')}</p>
       </div>
 
-      {/* Search + Filters toolbar — sticky so it's always reachable while browsing */}
-      <div className={`km-sticky-toolbar rounded-3xl border shadow-sm p-4 sm:p-5 mb-8 transition-colors ${isDarkMode ? 'bg-[#0e1410]/90 border-[#26332a]' : 'bg-white/90 border-green-100'} backdrop-blur-md`}>
-        <div className="relative mb-4">
-          <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder={t('searchAdvicePlaceholder')}
-            className={`w-full pl-11 pr-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-gray-50 border-green-100 text-[#1a241d] focus:bg-white'}`}
-          />
-        </div>
+      {/* Search */}
+      <div className="relative mb-6">
+        <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={t('searchAdvicePlaceholder')}
+          className={`w-full pl-11 pr-4 py-3.5 border rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-green-100 text-gray-800'}`}
+        />
+      </div>
 
-        <div className="flex flex-wrap gap-2">
-          {categories.map(cat => {
-            const count = cat.id === 'all' ? advice.length : advice.filter(a => a.category === cat.id).length
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all active:scale-95 ${
-                  activeCategory === cat.id
-                    ? 'bg-green-600 text-white shadow-sm'
-                    : `${isDarkMode ? 'bg-[#1a241d] text-gray-300 border border-[#26332a] hover:border-green-600' : 'bg-gray-50 text-gray-600 border border-green-100 hover:border-green-300 hover:bg-white'}`
-                }`}
-              >
-                {cat.icon}
-                {cat.label}
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                  activeCategory === cat.id
-                    ? 'bg-white/25 text-white'
-                    : isDarkMode ? 'bg-white/10 text-gray-400' : 'bg-black/5 text-gray-500'
-                }`}>{count}</span>
-              </button>
-            )
-          })}
-        </div>
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {categories.map(cat => (
+          <button
+            key={cat.id}
+            onClick={() => setActiveCategory(cat.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              activeCategory === cat.id
+                ? 'bg-green-600 text-white shadow-sm'
+                : `${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-green-600' : 'bg-white text-gray-600 border border-green-100 hover:border-green-300'}`
+            }`}
+          >
+            {cat.icon}
+            {cat.label}
+          </button>
+        ))}
       </div>
 
       {/* Results Count */}
@@ -185,15 +176,15 @@ export default function Advice() {
       </p>
 
       {/* Advice Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+      <div className="space-y-4">
         {filtered.map((item, i) => (
           <div
             key={item.id}
-            className={`km-card-hover ${isDarkMode ? 'bg-[#121a15] border-[#1a241d]' : 'bg-white border-green-100'} rounded-3xl border shadow-sm overflow-hidden transition-all ${expanded === i ? 'lg:col-span-2' : ''}`}
+            className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl border shadow-sm overflow-hidden transition-colors`}
           >
             {/* Card Header */}
             <button
-              className="w-full text-left p-5 sm:p-6 flex items-start gap-4"
+              className="w-full text-left p-6 flex items-start gap-4"
               onClick={() => setExpanded(expanded === i ? null : i)}
             >
               <span className="text-4xl flex-shrink-0">{item.emoji}</span>
@@ -212,7 +203,7 @@ export default function Advice() {
                         {item.readTime} {t('readTime')}
                       </span>
                     </div>
-                    <h3 className={`font-bold text-lg leading-tight ${isDarkMode ? 'text-gray-200' : 'text-[#1a241d]'}`}>{item.title}</h3>
+                    <h3 className={`font-bold text-lg leading-tight ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>{item.title}</h3>
                     <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mt-1`}>{item.summary}</p>
                   </div>
                   <div className="flex-shrink-0 mt-1">
@@ -227,12 +218,10 @@ export default function Advice() {
 
             {/* Expanded Content */}
             {expanded === i && (
-              <div className={`px-5 sm:px-6 pb-6 pt-0 border-t ${isDarkMode ? 'border-[#1a241d]' : 'border-green-50'}`}>
-                <div className={`mt-4 space-y-2 ${expanded === i ? 'lg:columns-2 lg:gap-6' : ''}`} style={{ columnFill: 'balance' }}>
+              <div className={`px-6 pb-6 pt-0 border-t ${isDarkMode ? 'border-gray-800' : 'border-green-50'}`}>
+                <div className="mt-4 space-y-2">
                   {item.sections.map((section, j) => (
-                    <div key={j} className="break-inside-avoid">
-                      <SectionRenderer section={section} isDarkMode={isDarkMode} />
-                    </div>
+                    <SectionRenderer key={j} section={section} isDarkMode={isDarkMode} />
                   ))}
                 </div>
               </div>
@@ -244,7 +233,7 @@ export default function Advice() {
       {/* No Results */}
       {filtered.length === 0 && (
         <div className="text-center py-16">
-          <BookOpen className={`w-16 h-16 mx-auto mb-4 ${isDarkMode ? 'text-[#26332a]' : 'text-gray-300'}`} />
+          <BookOpen className={`w-16 h-16 mx-auto mb-4 ${isDarkMode ? 'text-gray-700' : 'text-gray-300'}`} />
           <p className={`text-lg font-medium ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>{t('noArticlesFound')}</p>
           <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{t('tryDifferentSearch')}</p>
         </div>

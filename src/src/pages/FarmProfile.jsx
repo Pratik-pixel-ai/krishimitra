@@ -2,30 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import useThemeStore from '../store/themeStore';
-import useLanguageStore from '../store/languageStore';
 
-const soilTypes = [
-  { key: "Clay", labelKey: "soilClay" },
-  { key: "Sandy", labelKey: "soilSandy" },
-  { key: "Loamy", labelKey: "soilLoamy" },
-  { key: "Black Cotton", labelKey: "soilBlackCotton" },
-  { key: "Red", labelKey: "soilRed" },
-  { key: "Alluvial", labelKey: "soilAlluvial" },
-];
-const cropOptions = [
-  { key: "Wheat", labelKey: "fpCropWheat" },
-  { key: "Rice", labelKey: "fpCropRice" },
-  { key: "Onion", labelKey: "fpCropOnion" },
-  { key: "Cotton", labelKey: "fpCropCotton" },
-  { key: "Sugarcane", labelKey: "fpCropSugarcane" },
-  { key: "Soybean", labelKey: "fpCropSoybean" },
-  { key: "Maize", labelKey: "fpCropMaize" },
-  { key: "Tomato", labelKey: "fpCropTomato" },
-  { key: "Potato", labelKey: "fpCropPotato" },
-  { key: "Gram", labelKey: "fpCropGram" },
-  { key: "Turmeric", labelKey: "fpCropTurmeric" },
-  { key: "Groundnut", labelKey: "fpCropGroundnut" },
-];
+const soilTypes = ["Clay", "Sandy", "Loamy", "Black Cotton", "Red", "Alluvial"];
+const cropOptions = ["Wheat", "Rice", "Onion", "Cotton", "Sugarcane", "Soybean", "Maize", "Tomato", "Potato", "Gram", "Turmeric", "Groundnut"];
 
 export default function FarmProfile() {
   const [profile, setProfile] = useState({ soilType: "", farmSize: "", cropsGrown: "" });
@@ -35,7 +14,6 @@ export default function FarmProfile() {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const { isDarkMode } = useThemeStore();
-  const { t } = useLanguageStore();
 
   useEffect(() => {
     api.get("/farmer/profile").then((res) => {
@@ -63,33 +41,33 @@ export default function FarmProfile() {
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (e) {
-      alert(t('fpSaveFailed'));
+      alert("Failed to save. Please try again.");
     }
     setSaving(false);
   };
 
-  if (loading) return <div className={`flex justify-center items-center h-64 ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>{t('fpLoading')}</div>;
+  if (loading) return <div className={`flex justify-center items-center h-64 ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>Loading...</div>;
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-green-400' : 'text-green-800'}`}>{t('fpTitle')}</h1>
-      <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mb-6`}>{t('fpSubtitle')}</p>
+      <h1 className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-green-400' : 'text-green-800'}`}>🌾 Farm Profile</h1>
+      <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mb-6`}>This info helps AI give you better advice</p>
 
       {/* Soil Type */}
       <div className="mb-5">
-        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('fpSoilType')}</label>
+        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Soil Type</label>
         <div className="flex flex-wrap gap-2">
           {soilTypes.map((soil) => (
             <button
-              key={soil.key}
-              onClick={() => setProfile({ ...profile, soilType: soil.key })}
+              key={soil}
+              onClick={() => setProfile({ ...profile, soilType: soil })}
               className={`px-3 py-1.5 rounded-full text-sm border transition ${
-                profile.soilType === soil.key
+                profile.soilType === soil
                   ? "bg-green-600 text-white border-green-600"
-                  : `${isDarkMode ? 'bg-[#1a241d] text-gray-300 border-[#26332a] hover:border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}`
+                  : `${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}`
               }`}
             >
-              {t(soil.labelKey)}
+              {soil}
             </button>
           ))}
         </div>
@@ -97,33 +75,33 @@ export default function FarmProfile() {
 
       {/* Farm Size */}
       <div className="mb-5">
-        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('fpFarmSize')}</label>
+        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Farm Size (acres)</label>
         <input
           type="number"
           min="0"
           step="0.5"
           value={profile.farmSize}
           onChange={(e) => setProfile({ ...profile, farmSize: e.target.value })}
-          className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-300'}`}
-          placeholder={t('fpFarmSizePlaceholder')}
+          className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-300'}`}
+          placeholder="e.g. 2.5"
         />
       </div>
 
       {/* Crops */}
       <div className="mb-6">
-        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('fpCropsYouGrow')}</label>
+        <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Crops You Grow</label>
         <div className="flex flex-wrap gap-2">
           {cropOptions.map((crop) => (
             <button
-              key={crop.key}
-              onClick={() => toggleCrop(crop.key)}
+              key={crop}
+              onClick={() => toggleCrop(crop)}
               className={`px-3 py-1.5 rounded-full text-sm border transition ${
-                selectedCrops.includes(crop.key)
+                selectedCrops.includes(crop)
                   ? "bg-green-600 text-white border-green-600"
-                  : `${isDarkMode ? 'bg-[#1a241d] text-gray-300 border-[#26332a] hover:border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}`
+                  : `${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}`
               }`}
             >
-              {selectedCrops.includes(crop.key) ? "✓ " : ""}{t(crop.labelKey)}
+              {selectedCrops.includes(crop) ? "✓ " : ""}{crop}
             </button>
           ))}
         </div>
@@ -135,12 +113,12 @@ export default function FarmProfile() {
         disabled={saving}
         className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition"
       >
-        {saving ? t('fpSaving') : t('fpSaveButton')}
+        {saving ? "Saving..." : "Save Farm Profile"}
       </button>
 
       {success && (
         <div className={`mt-4 text-center font-medium ${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>
-          {t('fpSaveSuccess')}
+          ✅ Profile saved! AI will now use this for better advice.
         </div>
       )}
     </div>

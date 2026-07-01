@@ -40,7 +40,7 @@ export default function Register() {
   }
 
   return (
-    <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors ${isDarkMode ? 'bg-[#0a0f0c]' : 'bg-[#f9f6f0]'}`}>
+    <div className={`min-h-screen flex items-center justify-center px-4 py-12 transition-colors ${isDarkMode ? 'bg-gray-950' : 'bg-[#f9f6f0]'}`}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="bg-green-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -50,7 +50,7 @@ export default function Register() {
           <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>{t('joinKrishiMitra')}</p>
         </div>
 
-        <div className={`${isDarkMode ? 'bg-[#121a15] border-[#1a241d]' : 'bg-white border-green-100'} rounded-3xl shadow-sm border p-8 transition-colors`}>
+        <div className={`${isDarkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-green-100'} rounded-3xl shadow-sm border p-8 transition-colors`}>
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 mb-4 text-sm">
               {error}
@@ -59,34 +59,34 @@ export default function Register() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('fullName')}</label>
+              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('fullName')}</label>
               <div className="relative">
                 <User className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                 <input type="text" name="fullName" placeholder={t('fullNamePlaceholder')}
                   value={formData.fullName} onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                   required />
               </div>
             </div>
 
             <div>
-              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('phoneNumber')}</label>
+              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('phoneNumber')}</label>
               <div className="relative">
                 <Phone className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                 <input type="tel" name="phone" placeholder={t('phonePlaceholderReg')}
                   value={formData.phone} onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                   required />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('state')}</label>
+                <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('state')}</label>
                 <div className="relative">
                   <MapPin className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                   <select name="state" value={formData.state} onChange={handleChange}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                     required>
                     <option value="">{t('select')}</option>
                     {states.map(s => <option key={s} value={s}>{s}</option>)}
@@ -94,22 +94,22 @@ export default function Register() {
                 </div>
               </div>
               <div>
-                <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('district')}</label>
+                <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('district')}</label>
                 <input type="text" name="district" placeholder={t('districtPlaceholder')}
                   value={formData.district} onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                   required />
               </div>
             </div>
 
             <div>
-              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-[#26332a]'}`}>{t('password')}</label>
+              <label className={`block text-sm font-semibold mb-1.5 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{t('password')}</label>
               <div className="relative">
                 <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                 <input type={showPassword ? 'text' : 'password'} name="password"
                   placeholder={t('createStrongPassword')}
                   value={formData.password} onChange={handleChange}
-                  className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-[#1a241d] border-[#26332a] text-gray-200' : 'bg-white border-gray-200 text-[#1a241d]'}`}
+                  className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 transition-colors ${isDarkMode ? 'bg-gray-800 border-gray-700 text-gray-200' : 'bg-white border-gray-200 text-gray-800'}`}
                   required />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   className={`absolute right-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}>

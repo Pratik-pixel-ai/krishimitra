@@ -43,33 +43,20 @@ h1, h2, h3, h4, .font-display {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(46,125,50,0.25); border-radius: 8px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(46,125,50,0.45); }
-.dark ::-webkit-scrollbar-thumb { background: rgba(102,187,106,0.25); }
-.dark ::-webkit-scrollbar-thumb:hover { background: rgba(102,187,106,0.45); }
 
 /* ---------- Glassmorphism ---------- */
 .glass {
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.66));
-  border: 1px solid rgba(102,187,106,0.22);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 0 rgba(46,125,50,0.06);
-}
-
-/* darker translucent glass for use over bright photo backgrounds (keeps white text readable) */
-.glass-hero {
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  background: linear-gradient(180deg, rgba(6,16,10,0.55), rgba(6,16,10,0.38));
-  border: 1px solid rgba(255,255,255,0.22);
-  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .glass-dark {
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  background: linear-gradient(180deg, rgba(20,30,24,0.86), rgba(12,18,14,0.78));
-  border: 1px solid rgba(102,187,106,0.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(17, 24, 28, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ---------- Nature mesh background ---------- */
@@ -83,12 +70,12 @@ h1, h2, h3, h4, .font-display {
     linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 45%, #F7FAF5 100%);
 }
 
-.dark.nature-canvas, .dark .nature-canvas {
+.dark .nature-canvas {
   background:
-    radial-gradient(circle at 15% 20%, rgba(102,187,106,0.13), transparent 45%),
-    radial-gradient(circle at 85% 10%, rgba(255,179,0,0.08), transparent 40%),
-    radial-gradient(circle at 75% 80%, rgba(46,125,50,0.13), transparent 45%),
-    linear-gradient(135deg, #0b130e 0%, #0d1612 45%, #0a100c 100%);
+    radial-gradient(circle at 15% 20%, rgba(102,187,106,0.10), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgba(255,179,0,0.06), transparent 40%),
+    radial-gradient(circle at 75% 80%, rgba(46,125,50,0.10), transparent 45%),
+    linear-gradient(135deg, #0a0f0c 0%, #0d1410 45%, #0a0e0a 100%);
 }
 
 .km-blob {
@@ -129,14 +116,9 @@ h1, h2, h3, h4, .font-display {
 }
 
 .dark .km-card {
-  background: linear-gradient(180deg, #131c16, #0f1712);
-  border-color: rgba(102,187,106,0.12);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.55);
-}
-
-.dark .km-card-hover:hover {
-  border-color: rgba(102,187,106,0.28);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 20px 36px -16px rgba(0,0,0,0.6);
+  background: #121a15;
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
 }
 
 /* glow border for highlighted cards */
@@ -231,15 +213,4 @@ h1, h2, h3, h4, .font-display {
 /* floating navbar */
 .km-nav-float {
   border-radius: 9999px;
-}
-
-/* sticky in-page toolbar, sits just below the floating navbar */
-.km-sticky-toolbar {
-  position: sticky;
-  top: 5.25rem;
-  z-index: 20;
-}
-
-@media (max-width: 640px) {
-  .km-sticky-toolbar { top: 4.75rem; }
 }
