@@ -23,6 +23,7 @@ export default function Navbar() {
     { to: '/', label: t('home') },
     { to: '/weather', label: t('weather') },
     { to: '/chat', label: t('aiChat') },
+    { to: '/diagnose', label: t('plantDoctor') },
     { to: '/crops', label: t('crops') },
     { to: '/advice', label: t('advice') },
   ]

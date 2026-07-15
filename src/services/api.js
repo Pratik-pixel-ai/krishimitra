@@ -2,7 +2,12 @@ const BASE_URL = 'https://krishimitra-backend-5dw1.onrender.com/api'
 
 const handleResponse = async (res) => {
   const text = await res.text()
-  const data = text ? JSON.parse(text) : {}
+  let data = {}
+  try {
+    data = text ? JSON.parse(text) : {}
+  } catch {
+    data = { message: text || 'Something went wrong' }
+  }
   if (!res.ok) throw new Error(data.message || 'Something went wrong')
   return data
 }
@@ -38,6 +43,29 @@ export const aiService = {
       method: 'POST',
       headers: authHeaders(),
       body: JSON.stringify({ message })
+    })
+    return handleResponse(res)
+  }
+}
+
+export const diagnosisService = {
+  diagnose: async (imageFile, cropName) => {
+    const formData = new FormData()
+    formData.append('image', imageFile)
+    if (cropName) formData.append('cropName', cropName)
+
+    const res = await fetch(`${BASE_URL}/ai/diagnose`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+      body: formData
+    })
+    return handleResponse(res)
+  },
+
+  getHistory: async () => {
+    const res = await fetch(`${BASE_URL}/ai/diagnose/history`, {
+      method: 'GET',
+      headers: authHeaders()
     })
     return handleResponse(res)
   }

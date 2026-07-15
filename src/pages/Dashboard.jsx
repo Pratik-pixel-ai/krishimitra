@@ -6,7 +6,7 @@ import useLanguageStore from '../store/languageStore'
 import api from '../services/api'
 import {
   Sprout, MessageSquareText, CloudSun, BookOpen, LogOut, User, Tractor,
-  Droplets, Wind, ArrowUpRight, Sparkles, MapPin, MapPinOff, Send, Loader2,
+  Droplets, Wind, ArrowUpRight, Sparkles, MapPin, MapPinOff, Send, Loader2, ScanLine,
 } from 'lucide-react'
 
 const cropLabelKeys = {
@@ -57,6 +57,7 @@ export default function Dashboard() {
 
   const features = [
     { icon: MessageSquareText, title: t('dashFeatureChatTitle'), desc: t('dashFeatureChatDesc'), link: '/chat', tint: 'from-green-500 to-emerald-600' },
+    { icon: ScanLine, title: t('dashFeaturePlantDoctorTitle'), desc: t('dashFeaturePlantDoctorDesc'), link: '/diagnose', tint: 'from-rose-500 to-orange-500' },
     { icon: CloudSun, title: t('dashFeatureWeatherTitle'), desc: t('dashFeatureWeatherDesc'), link: '/weather', tint: 'from-sky-400 to-blue-500' },
     { icon: Sprout, title: t('dashFeatureCropsTitle'), desc: t('dashFeatureCropsDesc'), link: '/crops', tint: 'from-emerald-500 to-teal-600' },
     { icon: BookOpen, title: t('dashFeatureAdviceTitle'), desc: t('dashFeatureAdviceDesc'), link: '/advice', tint: 'from-amber-400 to-orange-500' },

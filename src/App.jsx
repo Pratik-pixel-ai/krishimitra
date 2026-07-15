@@ -9,6 +9,7 @@ import Crops from './pages/Crops'
 import Advice from './pages/Advice'
 import Dashboard from './pages/Dashboard'
 import FarmProfile from './pages/FarmProfile'
+import PlantDoctor from './pages/PlantDoctor'
 import useAuthStore from './store/authStore'
 
 function ProtectedRoute({ children }) {
@@ -35,6 +36,7 @@ function App() {
           <Route path="chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
           <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="farm-profile" element={<ProtectedRoute><FarmProfile /></ProtectedRoute>} />
+          <Route path="diagnose" element={<ProtectedRoute><PlantDoctor /></ProtectedRoute>} />
         </Route>
       </Routes>
     </Router>
